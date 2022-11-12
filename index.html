@@ -1,0 +1,60 @@
+<style>
+ div.child { margin-left: 1em; }
+ div, .div { color: blue; }
+ span, .span { color: green; }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.1.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
+
+<p class="div">div</p>
+<p class="span">span</p>
+<div id="root">
+  源頼朝 みなもとのよりとも
+  <div class="child">
+    源頼家 みなもとのよりいえ
+    <div class="child">
+      一幡 いちまん
+    </div>
+
+    源実朝 みなもとのさねとも
+    <div class="child">
+      公暁 くぎょう
+    </div>
+  </div>
+
+  源範頼 みなもとののりより
+  <div class="child">
+    源範円 みなもとのはんえん
+  </div>
+
+  源義経 みなもとのよしつね
+  <div class="child">
+    千歳丸 せんさいまる
+  </div>
+</div>
+
+<button id="buttonChangeDivToSpan">Change div to span!</button>
+<button id="buttonReload">Reload</button>
+
+<script type="module">
+  $.fn.replaceWithTag = function(tagName) {
+    var result= [];
+    this.each(function() {
+      var newElem = $('<' + tagName + '>').get(0);
+      for (var i = 0; i < this.attributes.length; i++) {
+        newElem.setAttribute(
+          this.attributes[i].name, this.attributes[i].value
+        );
+      }
+      newElem= $(this).wrapInner(newElem).children(0).unwrap().get(0);
+      result.push(newElem);
+    });
+  };
+
+  buttonChangeDivToSpan.onclick = () => {
+    $('#root').find('div').replaceWithTag('span');
+    buttonChangeDivToSpan.hidden = true;
+  };
+
+  buttonReload.onclick = () => location.reload();
+</script>
